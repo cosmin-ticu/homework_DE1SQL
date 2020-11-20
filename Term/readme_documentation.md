@@ -2,7 +2,7 @@
 The data for this term project was chosen out of personal interest for university rankings and with the goal of getting a better understanding of how and why we pick the universities that we do. In my opionion, the score of the actual university is not the only aspect that matters, but rather the country's attributes are highly important.
 The following run-through is a shortened version of the [SQL scripts](https://github.com/cosmin-ticu/homework_DE1SQL/tree/master/Term/Scripts) provided. A detailed run-through is available within the scripts after each query, procedure and function.
 ## [Chapter 1 - Loading-cleaning-structuring](https://github.com/cosmin-ticu/homework_DE1SQL/blob/master/Term/Scripts/1-Loading_cleaning_structuring.sql)
-The two university ranking datasets were imported into MySQL Workbench using table creation code and then uploading loading the respective CSVs.
+The two university ([CWUR](https://github.com/cosmin-ticu/homework_DE1SQL/blob/master/Term/Data/cwurData.csv) & [Times](https://github.com/cosmin-ticu/homework_DE1SQL/blob/master/Term/Data/timesData.csv)) ranking datasets were imported into MySQL Workbench using table creation code and then uploading loading the respective CSVs.
 ### Sample table creation
 ```
 CREATE TABLE times (
@@ -32,7 +32,7 @@ ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 ```
-The World Bank data was procured from the [World Bank repository](https://databank.worldbank.org/home.aspx) by choosing tabular data, getting the measures of interest and attributing them to columns and rows respectively. The same table creation and import was done for the World Bank data. A few cleaning of variables was also done to get the numeric measures to be correctly handled by MySQL.
+The [World Bank data](https://github.com/cosmin-ticu/homework_DE1SQL/blob/master/Term/Data/world_bank_data.csv) was procured from the [World Bank repository](https://databank.worldbank.org/home.aspx) by choosing tabular data, getting the measures of interest and attributing them to columns and rows respectively. The same table creation and import was done for the World Bank data. A few cleaning of variables was also done to get the numeric measures to be correctly handled by MySQL.
 ### Sample data cleaning
 ```
 UPDATE world_bank 
@@ -140,11 +140,21 @@ The SQL Trigger was added so that newly-inserted data would be automatically log
 ```
 INSERT INTO messages SELECT CONCAT('new University in the ranking: ', NEW.university_name, ' from: ', NEW.country, ' added: ', NOW());
 ```
-With the trigger in place, two random entries were made in the dataset to check whether runs. This can be checked by querying the *messages* table and the *cosminranking_raw* table for the newly-added data.
+With the trigger in place, two random entries were made in the dataset to check whether runs. This can be checked by querying the messages table and the cosminranking_raw table for the newly-added data.
 ```
 INSERT INTO merged_tables VALUES('Gica Hagi University','Romania',68.7,36.6,'15%',57.7,66.8,187,58,2014);
 INSERT INTO merged_tables VALUES('Puskas Ferenc University','Hungary',68.7,36.6,'15%',57.7,66.8,187,58,2014);
 ```
 After the insertion of the two new values, there is added script in the [3rd chapter](https://github.com/cosmin-ticu/homework_DE1SQL/blob/master/Term/Scripts/3-Trigger.sql) for cleaning up the new entries. Alternatively, if the entries want to be kept, the final procedure (get_cosminranking_comp) needs to be rerun (no input parameters needed). The command for rerunning the final procedure is on the first line of the final chapter ([5-Views.sql](https://github.com/cosmin-ticu/homework_DE1SQL/blob/master/Term/Scripts/5-Views.sql)).
 ## [Chapter 4 - Event-Create random inserts of new data](https://github.com/cosmin-ticu/homework_DE1SQL/blob/master/Term/Scripts/4-Event.sql)
+The event was created pertaining to the same table that the trigger was defined on so that they could run together. Thus, with every new addition from the event, the trigger will automatically archive the new data in the merged_tables and will log their insertion. The following code is the main snippet of the event:
+```
+DECLARE uni_temp VARCHAR(256) DEFAULT 'Birdstrikes University';
+		SET uni_temp = CONCAT(uni_temp,' ',FLOOR(RAND()*(10000-30+1))+30);
+		
+	INSERT INTO event_log SELECT CONCAT('insertion at: ',NOW());
+	
+    INSERT INTO merged_tables VALUES(uni_temp,'Romania',68.7,36.6,'15%',57.7,66.8,187,58,2014);
+```
+As such, the messages table acts as the main log for the event as well. However, if the trigger were not set up or initiated, the event_log table acts as an intermediary. This represents the end of our ETL and other data manipulation procedures. The final chapter covers data marts which can be later used to accomplish the [analytics plan](#heading-10).
 ## [Chapter 5 - Views-Data Marts](https://github.com/cosmin-ticu/homework_DE1SQL/blob/master/Term/Scripts/5-Views.sql)
