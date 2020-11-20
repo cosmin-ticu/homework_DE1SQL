@@ -2,8 +2,11 @@
 The data for this term project was chosen out of personal interest for university rankings and with the goal of getting a better understanding of how and why we pick the universities that we do. In my opionion, the score of the actual university is not the only aspect that matters, but rather the country's attributes are highly important.
 The following run-through is a shortened version of the [SQL scripts](https://github.com/cosmin-ticu/homework_DE1SQL/tree/master/Term/Scripts) provided. A detailed run-through is available within the scripts after each query, procedure and function.
 ## [Chapter 1 - Loading-cleaning-structuring](https://github.com/cosmin-ticu/homework_DE1SQL/blob/master/Term/Scripts/1-Loading_cleaning_structuring.sql)
+
 Times World Rankings -> <https://www.timeshighereducation.com/>
+
 Center for World University Rankings -> <https://cwur.org/>
+
 The two university ([CWUR](https://github.com/cosmin-ticu/homework_DE1SQL/blob/master/Term/Data/cwurData.csv) & [Times](https://github.com/cosmin-ticu/homework_DE1SQL/blob/master/Term/Data/timesData.csv)) ranking datasets were imported into MySQL Workbench using table creation code and then uploading loading the respective CSVs.
 ### Sample table creation
 ```
