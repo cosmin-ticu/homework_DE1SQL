@@ -69,6 +69,8 @@ FROM
 WHERE
     times.year = 2015;
 ```
+## Chapter 2 - ETL-Stored Procedures-Analytical Layer
+The stored procedure function was used in MySQL to merge all the datasets together in order to build the following table (data store - analytical layer), representing facts and dimensions.
 
 Class | Measure
 ------------- | -------------
@@ -81,9 +83,37 @@ Dimension  | CWUR – Patents Rank
 Dimension  | Times – Percentage of international students
 Dimension  | Times – Income
 Dimension  | Times – Grade
-Dimension  | Expenditure on education (% of GDP)
-Dimension  | GDP per capita (PPP)
-Dimension  | Unemployment youth (% total labor force)
-Dimension  | Proportion of seats by women in parliament
-Dimension  | PM2.5 air pollution (annual exposure)
+Dimension  | World Bank – Expenditure on education (% of GDP)
+Dimension  | World Bank – GDP per capita (PPP)
+Dimension  | World Bank – Unemployment youth (% total labor force)
+Dimension  | World Bank – Proportion of seats by women in parliament
+Dimension  | World Bank – PM2.5 air pollution (annual exposure)
 Dimension (computed)  | Cosmin Grade
+
+An iterative approach was taken. Thus,
+1. The first procedure (get_merged_tables) creates a merger between the two rankings datasets.
+2. The second procedure (get_cosminranking_raw) merges the two rankings datasets to the World Bank data, adding all the chosen measures to each country.
+3. The final procedure (get_cosminranking_comp) takes the data store and adds a new computed column to round off the ETL (Extract - Transform - Load). The cosmin_grade was computed based on all the measures of interest from the two rankings datasets. The computation snippet as part of the larger stored procedure (get_cosminranking_comp) can be seen in the code below.
+```
+IF times_score IS NOT NULL THEN
+			SET cosmin_grade = (times_score+cwur_score)/2;
+				UPDATE univrankings.cosminranking_comp 
+					SET 
+						cosminranking_comp.cosmin_grade = cosmin_grade
+					WHERE 
+						cosminranking_comp.university_name = university_name;
+		ELSE IF times_income_grade IS NOT NULL THEN
+			SET cosmin_grade = ((times_income_grade+times_international_grade)/2+cwur_score)/2;
+				UPDATE univrankings.cosminranking_comp 
+					SET 
+						cosminranking_comp.cosmin_grade = cosmin_grade
+					WHERE
+						cosminranking_comp.university_name = university_name;
+			ELSE 
+				SET cosmin_grade = (times_international_grade-10+cwur_score)/2;
+					UPDATE univrankings.cosminranking_comp 
+						SET 
+							cosminranking_comp.cosmin_grade = cosmin_grade
+						WHERE
+							cosminranking_comp.university_name = university_name;
+```
