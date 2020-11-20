@@ -117,3 +117,16 @@ IF times_score IS NOT NULL THEN
 						WHERE
 							cosminranking_comp.university_name = university_name;
 ```
+### Analytics Plan
+This final dataset that contains the transformation for the cosmin_grade as well as all the ranking and World Bank data of interest can be used for creating data marts which rank universities taking into consideration factors like air quality and GDP per capita. This means that the Cosmin ranking takes into consideration both the individual university contributions and merits as well as the individual country factors, like economic safety and gender equality.
+Accordingly, we can proceed to ask a few questions that can guide further analysis on this computed dataset (of ~332 observations for the year 2014):
+1. What are the top international universities in affluent and unpolluted countries?
+2) How do countries compare against each other in terms of average scores?
+3) What is the best place to study in terms of gender equality, score and income?
+4) What are the best universities in terms of employment in low unemployment countries?
+4b) How about in countries with high youth unemployment?
+5) Is there a correlation between government expenditure on education and ranking?
+6) Do less internatioanl students come to poorer countries?
+7) What are the top universities for entreneurship and youth employment?
+8) Does a high grade of international outlook correlate with an international student body?
+Not all of the above questions aim to be answered by the data marts computed in chapter 5 ([5-Views.sql](https://github.com/cosmin-ticu/homework_DE1SQL/blob/master/Term/Scripts/5-Views.sql)).
