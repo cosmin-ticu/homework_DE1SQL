@@ -1,7 +1,7 @@
 # University Rankings Term Project - Data Engineering 1 SQL
 The data for this term project was chosen out of personal interest for university rankings and with the goal of getting a better understanding of how and why we pick the universities that we do. In my opionion, the score of the actual university is not the only aspect that matters, but rather the country's attributes are highly important.
 The following run-through is a shortened version of the [SQL scripts](https://github.com/cosmin-ticu/homework_DE1SQL/tree/master/Term/Scripts) provided. A detailed run-through is available within the scripts after each query, procedure and function.
-## Chapter 1 - Loading-cleaning-structuring
+## [Chapter 1 - Loading-cleaning-structuring](https://github.com/cosmin-ticu/homework_DE1SQL/blob/master/Term/Scripts/1-Loading_cleaning_structuring.sql)
 The two university ranking datasets were imported into MySQL Workbench using table creation code and then uploading loading the respective CSVs.
 ### Sample table creation
 ```
@@ -71,11 +71,11 @@ FROM
 WHERE
     times.year = 2015;
 ```
-## Chapter 2 - ETL-Stored Procedures-Analytical Layer
+## [Chapter 2 - ETL-Stored Procedures-Analytical Layer](https://github.com/cosmin-ticu/homework_DE1SQL/blob/master/Term/Scripts/2-ETL.sql)
 The stored procedure function was used in MySQL to merge all the datasets together in order to build the following table (data store - analytical layer), representing facts and dimensions.
 
 Class | Measure
-------------- | -------------
+:------------- | :-------------
 Fact  | University
 Fact  | Country
 Fact  | Year
@@ -135,4 +135,16 @@ Not all of the above questions aim to be answered by the data marts computed in 
 
 ### Final ERR diagram of dataset (without intermediary cosminranking_raw)
 ![picture alt](https://github.com/cosmin-ticu/homework_DE1SQL/blob/master/Term/Diagrams/ERR_final_data.png)
-## Chapter 3 - Trigger-Changes upon insertion of new data
+## [Chapter 3 - Trigger-Changes upon insertion of new data](https://github.com/cosmin-ticu/homework_DE1SQL/blob/master/Term/Scripts/3-Trigger.sql)
+The SQL Trigger was added so that newly-inserted data would be automatically logged in the intermediary cosminranking_raw table. The *messages* table was created in order to log each new entry (university - alongside all the other dimensions), the country the university is from and the exact timestamp of when it was added. The code for logging the new entries looks like this:
+```
+INSERT INTO messages SELECT CONCAT('new University in the ranking: ', NEW.university_name, ' from: ', NEW.country, ' added: ', NOW());
+```
+With the trigger in place, two random entries were made in the dataset to check whether runs. This can be checked by querying the *messages* table and the *cosminranking_raw* table for the newly-added data.
+```
+INSERT INTO merged_tables VALUES('Gica Hagi University','Romania',68.7,36.6,'15%',57.7,66.8,187,58,2014);
+INSERT INTO merged_tables VALUES('Puskas Ferenc University','Hungary',68.7,36.6,'15%',57.7,66.8,187,58,2014);
+```
+After the insertion of the two new values, there is added script in the [3rd chapter](https://github.com/cosmin-ticu/homework_DE1SQL/blob/master/Term/Scripts/3-Trigger.sql) for cleaning up the new entries. Alternatively, if the entries want to be kept, the final procedure (get_cosminranking_comp) needs to be rerun (no input parameters needed). The command for rerunning the final procedure is on the first line of the final chapter ([5-Views.sql](https://github.com/cosmin-ticu/homework_DE1SQL/blob/master/Term/Scripts/5-Views.sql)).
+## [Chapter 4 - Event-Create random inserts of new data](https://github.com/cosmin-ticu/homework_DE1SQL/blob/master/Term/Scripts/4-Event.sql)
+## [Chapter 5 - Views-Data Marts](https://github.com/cosmin-ticu/homework_DE1SQL/blob/master/Term/Scripts/5-Views.sql)
