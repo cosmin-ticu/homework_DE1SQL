@@ -5,7 +5,7 @@ SET GLOBAL event_scheduler = ON;
 
 -- Create a temporary table in which the newly inserted university names and their respective countries will be added
 -- this is a reiteration of the messages table from the trigger, but it only acts for logging the time of the addition
-DROP TABLE event_log;
+DROP TABLE IF EXISTS event_log;
 CREATE TABLE IF NOT EXISTS event_log (
     message VARCHAR(256) NOT NULL
 );
@@ -40,7 +40,8 @@ DELIMITER ;
 -- contains the timestamp of insertion.
 -- log table was conceptualized in case trigger would
 -- not want to be run and the even would run idependently
-SHOW EVENTS;
+SHOW EVENTS; -- to see if event ran
+
 SELECT 
     *
 FROM

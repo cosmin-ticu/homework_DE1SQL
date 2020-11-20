@@ -292,7 +292,7 @@ FROM
 WHERE
     w.year = 2015;
 
--- check how many countries are available between the two datasets of rankings
+-- check how many countries are available between the two datasets of rankings and world bank data
 SELECT 
     COUNT(DISTINCT (times.country)) AS num_countries,
     COUNT(DISTINCT (times.university_name)) AS num_universities,

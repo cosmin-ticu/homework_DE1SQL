@@ -1,7 +1,7 @@
 USE univrankings;
 
 -- Create a temporary table in which the newly inserted university names and their respective countries will be added
-DROP TABLE messages;
+DROP TABLE IF EXISTS messages;
 CREATE TABLE IF NOT EXISTS messages (
     message VARCHAR(256) NOT NULL
 );
@@ -97,3 +97,5 @@ WHERE
 DELETE FROM CosminRanking_comp 
 WHERE
     university_name LIKE 'Puskas Ferenc University';
+    
+TRUNCATE messages;
