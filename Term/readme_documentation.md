@@ -30,6 +30,20 @@ ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 ```
+The World Bank data was procured from the [World Bank repository](https://databank.worldbank.org/home.aspx) by choosing tabular data, getting the measures of interest and attributing them to columns and rows respectively. The same table creation and import was done for the World Bank data. A few cleaning of variables was also done to get the numeric measures to be correctly handled by MySQL.
+### Sample data cleaning:
+```
+UPDATE world_bank 
+SET 
+    gov_spend = NULL
+WHERE
+    gov_spend = '..';
+
+ALTER TABLE world_bank
+MODIFY COLUMN gov_spend DOUBLE;
+```
+### ERR diagram of initial data:
+![picture alt](https://github.com/cosmin-ticu/homework_DE1SQL/blob/master/Term/Diagrams/ERR_initial_data.png)
 
 Class | Measure
 ------------- | -------------
