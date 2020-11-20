@@ -47,6 +47,7 @@ The functionality of MySQL Workbench of designing ERR models was used. Foreign k
 ![picture alt](https://github.com/cosmin-ticu/homework_DE1SQL/blob/master/Term/Diagrams/ERR_initial_data.png)
 ### Entity-relation diagram (defining entities)
 This diagram was made using the [Live Mermaid Editor](https://mermaid-js.github.io/mermaid-live-editor/) for Entity-Relation diagrams.
+<img align="left" src="https://github.com/cosmin-ticu/homework_DE1SQL/blob/master/Term/Diagrams/entity-relation_diagram.png">
 ![picture alt](https://github.com/cosmin-ticu/homework_DE1SQL/blob/master/Term/Diagrams/entity-relation_diagram.png)
 
 After running all the data cleaning, it is worthwhile to inspect how many countries are available between the datasets. This can be done with a simple query to make sure that we are working with the same number of countries throughout the analysis.
