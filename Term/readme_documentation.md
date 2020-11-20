@@ -156,5 +156,25 @@ DECLARE uni_temp VARCHAR(256) DEFAULT 'Birdstrikes University';
 	
     INSERT INTO merged_tables VALUES(uni_temp,'Romania',68.7,36.6,'15%',57.7,66.8,187,58,2014);
 ```
-As such, the messages table acts as the main log for the event as well. However, if the trigger were not set up or initiated, the event_log table acts as an intermediary. This represents the end of our ETL and other data manipulation procedures. The final chapter covers data marts which can be later used to accomplish the [analytics plan](#heading-10).
+As such, the messages table acts as the main log for the event as well. However, if the trigger were not set up or initiated, the event_log table acts as an intermediary. This represents the end of our ETL and other data manipulation procedures. The final chapter covers data marts which can be later used to accomplish the analytics plan.
 ## [Chapter 5 - Views-Data Marts](https://github.com/cosmin-ticu/homework_DE1SQL/blob/master/Term/Scripts/5-Views.sql)
+The 5 views covers the following 5 questions:
+1. What are the top 50 universities worldwide according to the computed cosmin grade?
+2. How many universities per country and what is the country's average cosmin grade? Naturally the countries that only have a few universities might be at a large advantage. Thus, some arbitrary "weights" are added.
+3. How many universities does this dataset contain for each economic level (country-wide values)?
+4. Example depth question: "I am interested in studying at top (50/100) universities for internationality, I want to know their world rank (cosmin_grade), air quality matters for me, and I would like to live in a country where women have a say in parliament."
+5. Example depth question: "I am interested in studying at top (50/100) universities for employment opportunities, but I am also interested in entrepreneurship and patenting my work. I want to know their world rank (cosmin_grade) and to know whether the country as a whole having a good employment market for young people."
+### Sample of code used to categorize numeric measures (usage of CASE statement)
+```
+CASE
+            WHEN youth_unemploy = NULL THEN 'unknown youth unemployment rate'
+            WHEN youth_unemploy <= 10 THEN 'low youth unemployment'
+            WHEN youth_unemploy <= 15 THEN 'medium youth unemployment'
+            WHEN youth_unemploy <= 20 THEN 'upper medium youth unemployment'
+            WHEN youth_unemploy <= 35 THEN 'high youth unemployment'
+            ELSE 'very high youth unemployment'
+        END AS youth_unemployment
+```
+
+## Concluding remarks
+This project has made use of data loading, cleaning, ETL, stored procedures, triggers, events and views as functions of SQL in MySQL Workbench. The entire projects represents a runthrough of the BI Architecture. This project's scope can be easily enhanced by conducting even more data enrichment with more country-wide measures or even city-centric measures. The Cosmin Ranking is, thus, a work in progress.
