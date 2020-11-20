@@ -1,9 +1,13 @@
 use univrankings;
 
+-- Create a temporary table in which the newly inserted university names and their respective countries will be added
 drop table messages;
 CREATE TABLE IF NOT EXISTS messages (message varchar(256) NOT NULL);
 truncate messages;
 
+-- Trigger for a new university to log its addition into the messages table and add the new university to the
+-- raw table which contains data on the university's country. This means that after this trigger, you should
+-- rerun the final stored procedure -> get_cosminranking_comp in order to have complete views
 DROP TRIGGER IF EXISTS new_uni_insert; 
 
 DELIMITER $$
@@ -34,10 +38,21 @@ END $$
 
 DELIMITER ;
 
+-- -----------------------------------------------------
+-- If you would like to tinker with the trigger without
+-- launching the event on the 4-Event.sql script, you
+-- can run the insertions below and the queries
+-- -----------------------------------------------------
 -- insert two random entries that check whether the trigger works - check MESSAGES
 insert into merged_tables values('Gica Hagi University','Romania',68.7,36.6,'15%',57.7,66.8,187,58,2014);
 insert into merged_tables values('Puskas Ferenc University','Hungary',68.7,36.6,'15%',57.7,66.8,187,58,2014);
 
+-- check whether they were inserted
+select * from messages;
+select * from merged_tables where university_name like 'Gica Hagi University' or university_name like 'Puskas Ferenc University';
+select * from cosminranking_raw where university_name like 'Gica Hagi University' or university_name like 'Puskas Ferenc University';
+
+-- --------------------- clean up after yourself -----------------------------
 -- delete the two random entries that check whether the trigger works - do not forget to truncate MESSAGES
 delete from merged_tables where university_name like 'Gica Hagi University';
 delete from merged_tables where university_name like 'Puskas Ferenc University';

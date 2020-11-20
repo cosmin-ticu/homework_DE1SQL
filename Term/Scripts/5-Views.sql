@@ -1,5 +1,8 @@
 use univrankings;
 
+-- Always call the final stored procedure to make sure you are working with the most up-to-date data
+call get_cosminranking_comp();
+
 -- -------------------------------------------------------------------
 -- self-updating VIEWS (data marts) - but these are slow because they rebuild the table from scratch
 -- -------------------------------------------------------------------
