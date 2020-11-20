@@ -7,7 +7,7 @@ Times World Rankings -> <https://www.timeshighereducation.com/>
 
 Center for World University Rankings -> <https://cwur.org/>
 
-The two university ([CWUR](https://github.com/cosmin-ticu/homework_DE1SQL/blob/master/Term/Data/cwurData.csv) & [Times](https://github.com/cosmin-ticu/homework_DE1SQL/blob/master/Term/Data/timesData.csv)) ranking datasets were imported into MySQL Workbench using table creation code and then uploading loading the respective CSVs.
+The two university ([CWUR](https://github.com/cosmin-ticu/homework_DE1SQL/blob/master/Term/Data/cwurData.csv) & [Times](https://github.com/cosmin-ticu/homework_DE1SQL/blob/master/Term/Data/timesData.csv)) ranking datasets were imported into MySQL Workbench using table creation code and then uploaded the respective CSVs.
 ### Sample table creation
 ```
 CREATE TABLE times (
